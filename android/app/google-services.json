@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "950879307671",
+    "project_id": "joinus-95503",
+    "storage_bucket": "joinus-95503.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950879307671:android:5bd8d151190af126d5e6d2",
+        "android_client_info": {
+          "package_name": "com.psionicgeek.join_us"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950879307671-limpk2bgb7g63c77q8jsjiuh7cjmt30b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiNFPsyyt552YExLU3qYj8PvzsPie5f4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950879307671-limpk2bgb7g63c77q8jsjiuh7cjmt30b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
