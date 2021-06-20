@@ -56,6 +56,7 @@ class _IntroAuthScreenState extends State<IntroAuthScreen> {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> NavigateAuthScreen()));
       },
       onSkip: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> NavigateAuthScreen()));
       },
       showSkipButton: true,
       skip: const Icon(Icons.skip_next,size: 40,color: Colors.blue),
