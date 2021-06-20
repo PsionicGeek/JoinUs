@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:join_us/authentication/verify.dart';
 import 'package:join_us/variables.dart';
 import 'package:join_us/videoconference/createmeeting.dart';
 import 'package:join_us/videoconference/joinmeeting.dart';
@@ -31,7 +33,7 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> with Sing
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  (FirebaseAuth.instance.currentUser.emailVerified)?Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
@@ -49,6 +51,6 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> with Sing
         JoinMeeting(),
         CreateMeeting()
       ],),
-    );
+    ):verify();
   }
 }

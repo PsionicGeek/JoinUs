@@ -16,6 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String username='';
   bool dataIsThere= false;
   TextEditingController usernameController= TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
   @override
   void initState(){
     super.initState();
@@ -142,6 +143,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child:Text("SignOut",style: mystyle(17,Colors.white),),
                       )
                   ),
+                ),
+                SizedBox(height: 30,),
+                InkWell(
+                  onTap: ()=>changepassword(),
+                  child:Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: GradientColors.cherry)
+                    ),
+                    child: Center(
+                    child: Text("Change password",style: mystyle(17, Colors.white)),
+                    ),
+                  ),
                 )
                 
               ],
@@ -152,4 +166,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  changepassword() async{
+    return showDialog(context: context, builder: (context){
+      return Dialog(
+        child: Container(
+          height: 200,
+          child: Column(
+            children: [
+              SizedBox(height: 30,),
+              Container(
+                margin: EdgeInsets.only(left: 30,right: 30) ,
+                child: TextField(
+                  controller: passwordcontroller,
+                  style: mystyle(18,Colors.black),
+                  decoration: InputDecoration(
+                      labelText: "Update password",
+                      labelStyle: mystyle(16, Colors.grey)
+                  ),
+                ),
+              ),SizedBox(height: 40,),
+              InkWell(
+                onTap: ()=>linksender(),
+                child: Container(
+                    width: MediaQuery.of(context).size.width/2,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: GradientColors.cherry)
+                    ),
+                    child: Center(
+                      child:Text("password change",style: mystyle(18,Colors.white),),
+                    )
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+    });
+  }
+
+  linksender() {
+    FirebaseAuth.instance.sendPasswordResetEmail(email: passwordcontroller.text );
+    Navigator.of(context).pop();
+  }
+
 }
+

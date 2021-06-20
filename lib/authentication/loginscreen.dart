@@ -81,14 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 40,),
                   InkWell(
-                    onTap:(){
+                    onTap:()async{
                       try{
                         int count =0;
-                      FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-                      Navigator.popUntil(context,(route){
-                        return count++==2;
-                      });
-                    }
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+                      }
+
                     catch(e){
                       print(e);
                       var snackBar= SnackBar(content: Text(e.toString(),style: mystyle(20),));
