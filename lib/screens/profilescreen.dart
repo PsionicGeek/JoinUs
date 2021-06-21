@@ -197,8 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                   ),
                 ),
-
-
               ],
             ),
           )
@@ -206,5 +204,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+  
 }
 

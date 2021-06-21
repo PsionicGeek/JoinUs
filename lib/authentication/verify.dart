@@ -20,7 +20,7 @@ class _verifyState extends State<verify> {
   final auth = FirebaseAuth.instance;
   User user;
   Timer timer;
-
+  
   @override
   void initState() {
     user = auth.currentUser;

@@ -68,5 +68,6 @@ class _IntroAuthScreenState extends State<IntroAuthScreen> {
           "Done",
           style: mystyle(20, Colors.blue),
         ));
+
   }
 }

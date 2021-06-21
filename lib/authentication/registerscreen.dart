@@ -124,6 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Fluttertoast.showToast(
                               msg: e.message, backgroundColor: Colors.grey);
                         }
+
                       }
                     },
                     child: Container(
