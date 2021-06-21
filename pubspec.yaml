@@ -35,6 +35,7 @@ dependencies:
   flutter_custom_clippers:
   image_picker:
   jitsi_meet:
+  fluttertoast:
 
 
 
