@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/introauthscreen.dart';
 import 'screens/homepage.dart';
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -20,31 +21,31 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class NavigationPage extends StatefulWidget{
+class NavigationPage extends StatefulWidget {
   @override
   _NavigationPageState createState() => _NavigationPageState();
 }
 
-class _NavigationPageState extends State<NavigationPage>{
-  bool isSigned= false;
-  void initState(){
+class _NavigationPageState extends State<NavigationPage> {
+  bool isSigned = false;
+
+  void initState() {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((user) {
-      if(user!=null){
+      if (user != null) {
         setState(() {
-          isSigned=true;
+          isSigned = true;
         });
-      }
-      else{
-        isSigned= false;
+      } else {
+        isSigned = false;
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isSigned== false?IntroAuthScreen():HomePage(),
+      body: isSigned == false ? IntroAuthScreen() : HomePage(),
     );
   }
 }
-

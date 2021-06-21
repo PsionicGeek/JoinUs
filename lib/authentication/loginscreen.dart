@@ -58,9 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: mystyle(18,Colors.black),
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: "Email",
-                        prefixIcon: Icon(Icons.email),
-                        hintStyle: mystyle(20, Colors.grey)
+                          hintText: "Email",
+                          prefixIcon: Icon(Icons.email),
+                          hintStyle: mystyle(20, Colors.grey)
                       ),
                     ),
 
@@ -84,14 +84,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap:()async{
                       try{
                         int count =0;
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+                        Navigator.popUntil(context, (route){
+                          return count++==2;}
+                        );
                       }
 
-                    catch(e){
-                      print(e);
-                      var snackBar= SnackBar(content: Text(e.toString(),style: mystyle(20),));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
+                      catch(e){
+                        print(e);
+                        var snackBar= SnackBar(content: Text(e.message,style: mystyle(20),));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     child: Container(
                       width:MediaQuery.of(context).size.width/2,
@@ -105,6 +108,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 30,),
+                  InkWell(
+                    onTap:()=>changepassword(),
+                    child: Container(
+                      width:MediaQuery.of(context).size.width/2,
+                      height: 30,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: GradientColors.red),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: Center(
+                        child: Text("Forgot Password?",style: mystyle(10,Colors.white),),
+                      ),
+                    ),
+                  )
 
                 ],
               ),
@@ -114,4 +132,66 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  TextEditingController emailchange=TextEditingController();
+  changepassword() async{
+    return showDialog(context: context, builder: (context){
+      return Dialog(
+        child: Container(
+          height: 200,
+          child: Column(
+            children: [
+              SizedBox(height: 30,),
+              Container(
+                margin: EdgeInsets.only(left: 30,right: 30) ,
+                child: TextField(
+                  controller: emailchange,
+                  style: mystyle(18,Colors.black),
+                  decoration: InputDecoration(
+                      hintText: "Email",
+                      prefixIcon: Icon(Icons.email),
+                      hintStyle: mystyle(20, Colors.grey)
+                  ),
+                ),
+              ),SizedBox(height: 30,),
+              InkWell(
+                onTap: ()=>linksender(),
+                child: Container(
+                    width: MediaQuery.of(context).size.width/2,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: GradientColors.red),
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Center(
+                      child:Text("Get Link",style: mystyle(18,Colors.white),),
+                    )
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+    });
+  }
+
+  linksender() async{
+    bool error= false;
+    try{
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailchange.text );
+      Navigator.of(context).pop();}
+    catch (e){
+      var snackBar= SnackBar(content: Text(e.message,style: mystyle(20),));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      error=true;
+
+    }
+    if(!error){
+      var snackBar= SnackBar(content: Text("Password Reset Link sent to email",style: mystyle(20),));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      emailchange=TextEditingController();
+    }
+
+  }
+
 }
