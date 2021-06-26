@@ -10,7 +10,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_us/variables.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'introauthscreen.dart';
 class ProfileScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String username = '';
   String profile_pic ;
-  String imageurl;
+  String imageurl ;
   bool dataIsThere = false;
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
@@ -50,7 +50,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   editProfile(int change) async {
     userCollection.doc(FirebaseAuth.instance.currentUser.uid).update({
       if(change == 0) 'username': usernameController.text
-      else if(change ==1) 'profile':imageurl
       else
         'password': passwordcontroller.text
     });
@@ -285,12 +284,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Widget ProfilePicture() {
-    return Stack(
+  Future<Widget> ProfilePicture() async {
+    return Stack (
       children: <Widget>[
         CircleAvatar(
             radius: 64,
-            backgroundImage:NetworkImage(profile_pic)
+            backgroundImage: await NetworkImage(profile_pic)
         ),
         Positioned(
           bottom: 20.0,
@@ -314,12 +313,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   UploadImage() async {
     //check permission in ios
+    var userinside = await FirebaseAuth.instance.currentUser.uid;
     final _storage  =FirebaseStorage.instance  ;
     var myfile = File(imagefile.path);
     if (imagefile != null) {
-     var snapshot = await  _storage.ref().child('folderName/imageName').putFile(myfile);
+     var snapshot = await  _storage.ref().child('user/profile/${userinside}').putFile(myfile);
      String downloadUrl = await snapshot.ref.getDownloadURL();
      imageurl = downloadUrl;
+     await userCollection.doc(FirebaseAuth.instance.currentUser.uid).update(
+        { if(imageurl!= null)'profile':imageurl}
+     );
+     DocumentSnapshot userDoc = await userCollection.doc(
+         FirebaseAuth.instance.currentUser.uid).get();
+     setState(() async {
+       profile_pic = await userDoc['profile'];
+     });
+     print('this is ########3 ${imageurl}');
     }
     else {
       print('No path recieved');
