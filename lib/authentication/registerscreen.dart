@@ -76,6 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 1.7,
                     child: TextField(
+                      obscureText: true,
                       style: mystyle(18, Colors.black),
                       controller: passwordController,
                       decoration: InputDecoration(

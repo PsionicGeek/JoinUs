@@ -69,12 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width:  MediaQuery.of(context).size.width/1.7,
                     child: TextField(
+                      obscureText: true,
                       controller: passwordController,
                       style: mystyle(18,Colors.black),
                       decoration: InputDecoration(
                           hintText: "Password",
                           prefixIcon: Icon(Icons.lock),
-                          hintStyle: mystyle(20, Colors.grey)
+                          hintStyle: mystyle(20, Colors.grey),
                       ),
                     ),
 
