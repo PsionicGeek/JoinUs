@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   PickedFile imagefile;
+  var anotherprofile;
 
   final ImagePicker picker = ImagePicker();
 
@@ -35,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     getuserdata();
+
   }
 
   void getuserdata() async {
@@ -43,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       username = userDoc['username'];
       profile_pic = userDoc['profile'];
+      anotherprofile = profile_pic;
       dataIsThere = true;
     });
   }
@@ -284,12 +287,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Future<Widget> ProfilePicture() async {
+  Widget ProfilePicture() {
     return Stack (
       children: <Widget>[
         CircleAvatar(
             radius: 64,
-            backgroundImage: await NetworkImage(profile_pic)
+            backgroundImage: anotherprofile==null?NetworkImage('https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'):NetworkImage(anotherprofile)
         ),
         Positioned(
           bottom: 20.0,
@@ -317,18 +320,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final _storage  =FirebaseStorage.instance  ;
     var myfile = File(imagefile.path);
     if (imagefile != null) {
-     var snapshot = await  _storage.ref().child('user/profile/${userinside}').putFile(myfile);
-     String downloadUrl = await snapshot.ref.getDownloadURL();
-     imageurl = downloadUrl;
-     await userCollection.doc(FirebaseAuth.instance.currentUser.uid).update(
-        { if(imageurl!= null)'profile':imageurl}
-     );
-     DocumentSnapshot userDoc = await userCollection.doc(
-         FirebaseAuth.instance.currentUser.uid).get();
-     setState(() async {
-       profile_pic = await userDoc['profile'];
-     });
-     print('this is ########3 ${imageurl}');
+      var snapshot = await  _storage.ref().child('user/profile/${userinside}').putFile(myfile);
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      imageurl = downloadUrl;
+      await userCollection.doc(FirebaseAuth.instance.currentUser.uid).update(
+          { if(imageurl!= null)'profile':imageurl}
+      );
+      DocumentSnapshot userDoc = await userCollection.doc(
+          FirebaseAuth.instance.currentUser.uid).get();
+      profile_pic = await userDoc['profile'];
+      anotherprofile = profile_pic;
+      setState(()  {
+        username = userDoc['username'];
+      });
+      print('this is ########3 ${imageurl}');
     }
     else {
       print('No path recieved');

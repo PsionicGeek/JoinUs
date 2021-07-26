@@ -16,6 +16,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
 
+  String profilepictobe = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             'email': emailController.text,
                             'password': passwordController.text,
                             'uid': signedUser.user.uid,
-                            'profile':'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
+                            'profile': profilepictobe ,
                           });
                         });
                         Navigator.push(context,
